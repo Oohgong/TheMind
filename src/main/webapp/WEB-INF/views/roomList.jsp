@@ -8,10 +8,11 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>The Mind =◕.◕=</title>
+	<title>방 목록 : The Mind =◕.◕=</title>
 </head>
 <body>
-	The Mind
-	<button type="button" class="listDropdown"><a href="/roomList"><span>Start</span></a></button>
+	<button type="button" class="listDropdown"><a href="/room/1"><span>1</span></a></button>
+	<button type="button" class="listDropdown"><a href="/room/2"><span>2</span></a></button>
+	<button type="button" class="listDropdown"><a href="/room/3"><span>3</span></a></button>
 </body>
 </html>
