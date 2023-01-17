@@ -11,8 +11,14 @@
 	<title>방 목록 : The Mind =◕.◕=</title>
 </head>
 <body>
-	<button type="button" class="listDropdown"><a href="/room/1"><span>1</span></a></button>
-	<button type="button" class="listDropdown"><a href="/room/2"><span>2</span></a></button>
-	<button type="button" class="listDropdown"><a href="/room/3"><span>3</span></a></button>
+	<button type="button" class="listDropdown" data-room-num="1" onclick="javascript:open('1');"><span>1</span></button>
+	<button type="button" class="listDropdown" data-room-num="2" onclick="javascript:open('2');"><span>2</span></button>
+	<button type="button" class="listDropdown" data-room-num="3" onclick="javascript:open('3');"><span>3</span></button>
+	
+	<script type="text/javascript">
+		function open(roomNum){
+			location.href="/gameRoom/"+roomNum
+		}
+	</script>
 </body>
 </html>

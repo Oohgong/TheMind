@@ -21,25 +21,64 @@ public class SocketHandler extends TextWebSocketHandler{
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		
-		// ws://localhost:81/room/숫자 <- 숫자만 가져오기
+		// ws://localhost:81/gameRoom/숫자 <- 숫자만 가져오기
 		String uri = session.getUri().toString();
 		uri = uri.substring(uri.lastIndexOf("/")+1);
 		
-		String msg = "{\"type\":\"connect\",\"username\":\""+userVO.getName()+"\",\"roomNum\":\""+uri+"\"}";
+		String msg = "{\"type\":\"connect\",\"roomNum\":\""+uri+"\"}";
+		sm.put(session.getId(), session);
+		
+		for (String key : sm.keySet()) {
+			WebSocketSession wss = sm.get(key);
+			
+			try {
+				wss.sendMessage(new TextMessage(msg));
+				log.info("&&&&&&&&&&&&&& after : "+msg);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	//접속 끊긴 뒤
 	@Override
 	public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-		// TODO Auto-generated method stub
-		super.afterConnectionClosed(session, status);
+		String uri = session.getUri().toString();
+		uri = uri.substring(uri.lastIndexOf("/")+1);
+		
+		String msg = "{\"type\":\"disconnect\",\"roomNum\":\""+uri+"\"}";
+		sm.remove(session.getId());
+		
+		for (String key : sm.keySet()) {
+			WebSocketSession wss = sm.get(key);
+			
+			try {
+				wss.sendMessage(new TextMessage(msg));
+				log.info("&&&&&&&&&&&&&& after : "+msg);
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	//메세지 발송
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-		// TODO Auto-generated method stub
-		super.handleTextMessage(session, message);
+		String msg = message.getPayload();
+		
+		for(String key : sm.keySet()) {
+			WebSocketSession wss = sm.get(key);
+			
+			try {
+				log.info("handler - msg : "+msg);
+				wss.sendMessage(new TextMessage(msg));
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	
